@@ -1,0 +1,25 @@
+[
+    {
+        "name": "data",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "timestamp_ambient_pressure",
+                "type": "STRING"
+            },
+            {
+                "name": "ambient_pressure",
+                "type": "FLOAT"
+            },
+            {
+                "name": "timestamp_temperature",
+                "type": "STRING"
+            },
+            {
+                "name": "temperature",
+                "type": "FLOAT"
+            }
+        ]
+    }
+]
