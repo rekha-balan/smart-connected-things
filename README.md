@@ -1,0 +1,2 @@
+This repo contains various code and references around IoT / new connectivity (e.g. 5G) and enabling technologies 
+(e.g. Cloud, AI/ML, CI/CD) and how it relates to various verticals (e.g. smart cities, health care, green energy, education, logistics, etc)
