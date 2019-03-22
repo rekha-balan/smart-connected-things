@@ -1,9 +1,0 @@
-imports:
-- path: ip_and_os_access_level.jinja
-
-resources:
-- name: access-levels-template
-  type: ip_and_os_access_level.jinja
-  properties:
-    level: level_name
-    osType: DESKTOP_MAC

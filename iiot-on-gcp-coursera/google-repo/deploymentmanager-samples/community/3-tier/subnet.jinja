@@ -1,8 +1,0 @@
-resources:
-- name: {{ properties["subnet"] }}
-  type: compute.v1.subnetwork
-  properties:
-    ipCidrRange: {{ properties["subnet_cidr"] }}
-    network: global/networks/{{ properties["network"] }}
-    privateIpGoogleAccess: false
-    region: {{ properties["region"] }}
