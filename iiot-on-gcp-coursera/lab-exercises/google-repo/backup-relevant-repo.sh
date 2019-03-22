@@ -1,3 +1,6 @@
+# taking backup of a few repos. Decided not to clone it so that it can fit my directory structure 
+# and becoming not versioned
+
 # clean up git folder as you can't have git subfolders in one repo
 rm -rf training-data-analyst
 rm -rf sensor-sim
