@@ -8,9 +8,9 @@ export PROJECT_ID=$(gcloud config get-value project)
 #
 #
 # create BigQuery table 
-cp sample-schema.json /home/ec2-user/sample-schema.json
+cp sample-schema.json /home/acahyadi/sample-schema.json
 bq mk --dataset $PROJECT_ID:sensorHubData
-bq mk --table $PROJECT_ID:sensorHubData.sensorData /home/ec2-user/sample-schema.json
+bq mk --table $PROJECT_ID:sensorHubData.sensorData /home/acahyadi/sample-schema.json
 
 
 

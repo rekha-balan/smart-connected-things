@@ -32,15 +32,15 @@ gcloud iam service-accounts create service-account-sample
 gcloud projects add-iam-policy-binding $PROJECT_ID \ 
 --member "serviceAccount:service-account-sample@$PROJECT_ID.iam.gserviceaccount.com" \
 --role "roles/owner"
-gcloud iam service-accounts keys create /home/ec2-user/sample-credentials.json \
+gcloud iam service-accounts keys create /home/acahyadi/sample-credentials.json \
 --iam-account service-account-sample@$PROJECT_ID.iam.gserviceaccount.com
-export GOOGLE_APPLICATION_CREDENTIALS='/home/ec2-user/sample-credentials.json'
+export GOOGLE_APPLICATION_CREDENTIALS='/home/acahyadi/sample-credentials.json'
 
 
 #
 #
 # start simulator 
 git clone https://github.com/cagamboa123/sensor-sim.git
-mv sensor-sim /home/ec2-user
-cd /home/ec2-user/sensor-sim
+mv sensor-sim /home/acahyadi
+cd /home/acahyadi/sensor-sim
 python sendData.py -p $PROJECT_ID -t device-events

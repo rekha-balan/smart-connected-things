@@ -22,4 +22,4 @@ gcloud iot devices create device1 \
     --project=$PROJECT_ID \
     --region=us-central1 \
     --registry=deviceReg \
-    --public-key path=/home/ec2-user/sample_cert.pem,type=rs256_x509        
+    --public-key path=/home/acahyadi/sample_cert.pem,type=rs256_x509        

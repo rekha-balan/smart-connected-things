@@ -70,14 +70,14 @@ gcloud iot devices create temp-sensor-buenos-aires \
     --project=$PROJECT_ID \
     --region=us-central1 \
     --registry=iotlab-registry \
-    --public-key path=/home/ec2-user/sample_cert.pem,type=rs256
+    --public-key path=/home/acahyadi/sample_cert.pem,type=rs256
 
 # create the device 
 gcloud iot devices create temp-sensor-istanbul \
     --project=$PROJECT_ID \
     --region=us-central1 \
     --registry=iotlab-registry \
-    --public-key path=/home/ec2-user/sample_cert.pem,type=rs256
+    --public-key path=/home/acahyadi/sample_cert.pem,type=rs256
     
     
 read -p "Run the simulator telemetry for first device"
