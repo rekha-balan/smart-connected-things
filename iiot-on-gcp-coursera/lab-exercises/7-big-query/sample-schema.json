@@ -1,27 +1,25 @@
 [
     {
-    "name": "data",
-    "type": "RECORD",
-    "mode": "REPEATED"
-    },
-    {
-    "name": "data.timestamp_ambient_pressure",
-    "type": "STRING",
-    "mode": "NULLABE"
-    },
-    {
-    "name": "data.ambient_pressure",
-    "type": "FLOAT",
-    "mode": "NULLABE"
-    },
-    {
-    "name": "data.timestamp_temperature",
-    "type": "STRING",
-    "mode": "NULLABE"
-    },
-    {
-    "name": "data.temperature",
-    "type": "FLOAT",
-    "mode": "NULLABE"
+        "name": "data",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+            {
+                "name": "timestamp_ambient_pressure",
+                "type": "STRING"
+            },
+            {
+                "name": "ambient_pressure",
+                "type": "FLOAT"
+            },
+            {
+                "name": "timestamp_temperature",
+                "type": "STRING"
+            },
+            {
+                "name": "temperature",
+                "type": "FLOAT"
+            }
+        ]
     }
 ]
