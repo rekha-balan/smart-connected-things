@@ -1,46 +1,66 @@
-#! /bin/bash 
+#! /bin/bash
 
 export CLOUDSDK_PYTHON=/usr/bin/python2.7
-#gcloud init
+
+gcloud init
 
 export PROJECT_ID=$(gcloud config get-value project)
 
-gcloud pubsub topics create device-events 
+gcloud pubsub topics create device-events
 
 gsutil mb -l us-central1 gs://$PROJECT_ID/
 
+read -p "Execute simulator in CloudShell"
 
 #
 #
-# simulate events 
-# re-install google cloud pubsub library used by the simulator 
-# python scripts 
-sudo pip uninstall google-cloud-pubsub
-sudo pip uninstall google-cloud
-sudo pip install google-cloud
-sudo pip install google-cloud-pubsub
-
+# create BigQuery table
+cp sample-schema.json /home/acahyadi/sample-schema.json
+bq mk --dataset $PROJECT_ID:sensorHubData
+bq mk --table $PROJECT_ID:sensorHubData.sensorData /home/acahyadi/sample-schema.json
 
 
 
 #
 #
-# generate the sample credential can be generated using 
-# "Create Service Account Key" page from here 
-# https://cloud.google.com/docs/authentication/getting-started
-gcloud iam service-accounts create service-account-sample
-gcloud projects add-iam-policy-binding $PROJECT_ID \ 
---member "serviceAccount:service-account-sample@$PROJECT_ID.iam.gserviceaccount.com" \
---role "roles/owner"
-gcloud iam service-accounts keys create /home/acahyadi/sample-credentials.json \
---iam-account service-account-sample@$PROJECT_ID.iam.gserviceaccount.com
-export GOOGLE_APPLICATION_CREDENTIALS='/home/acahyadi/sample-credentials.json'
+# create data flow to export pub sub data from simulator to the bigquery table
+# use data flow to copy from pub/sub to bigquery dataset table
+gcloud dataflow jobs run copy-to-bq \
+    --gcs-location gs://dataflow-templates/latest/PubSub_to_BigQuery \
+    --staging-location gs://$PROJECT_ID/tmp \
+    --parameters \
+inputTopic=projects/$PROJECT_ID/topics/device-events,\
+outputTableSpec=$PROJECT_ID:sensorHubData.sensorData
+
 
 
 #
 #
-# start simulator 
-git clone https://github.com/cagamboa123/sensor-sim.git
-mv sensor-sim /home/acahyadi
-cd /home/acahyadi/sensor-sim
-python sendData.py -p $PROJECT_ID -t device-events
+# query data from bigquery
+bq query --use_legacy_sql=false \
+'SELECT * FROM `$PROJECT_ID.sensorHubData.sensorData` LIMIT 10'
+
+
+#
+#
+# another query ..
+bq query --use_legacy_sql=false \
+'SELECT \
+  #timestamp in miliseconds \
+  EXTRACT(DATE FROM TIMESTAMP_MILLIS(CAST(timestamp_ambient_pressure AS INT64))) AS Pressuredate, \
+  TIMESTAMP_MILLIS(CAST(timestamp_ambient_pressure AS INT64)) AS Pressuretime, \
+  EXTRACT(DATE FROM TIMESTAMP_MILLIS(CAST(timestamp_temperature AS INT64))) AS Tempdate, \
+  TIMESTAMP_MILLIS(CAST(timestamp_temperature AS INT64)) AS Temptime, \
+  ambient_pressure as pressure, \
+  temperature as temp_c, \
+  (temperature*1.8)+32 as temp_f \
+FROM \
+  `$PROJECT_ID.sensorHubData.sensorData`, \
+  UNNEST(data) AS d \
+  WHERE timestamp_temperature IS NOT NULL OR timestamp_ambient_pressure IS NOT NULL'
+
+
+#
+#
+# stop dataflow (in real life, this is a chargeable item)
+gcloud dataflow jobs drain copy-to-bq
