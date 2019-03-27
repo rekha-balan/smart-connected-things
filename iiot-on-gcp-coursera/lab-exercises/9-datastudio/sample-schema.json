@@ -1,0 +1,38 @@
+[
+    {
+        "name": "ride_id",
+        "type": "String"
+    },
+    {
+        "name": "latitude",
+        "type": "Float"
+    },
+    {
+        "name": "longitude",
+        "type": "Float"
+    },
+    {
+        "name": "timestamp",
+        "type": "String"
+    },
+    {
+        "name": "meter_reading",
+        "type": "Float"
+    },
+    {
+        "name": "meter_increment",
+        "type": "Float"
+    },
+    {
+        "name": "ride_status",
+        "type": "String"
+    },
+    {
+        "name": "passenger_count",
+        "type": "Integer"
+    },
+    {
+        "name": "point_idx",
+        "type": "Integer"
+    }
+]
